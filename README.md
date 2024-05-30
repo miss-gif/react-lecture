@@ -5,10 +5,10 @@
 - 단계 1. 반드시 프로젝트 폴더 만들어준다.
 - 단계 2. 프로젝트명은 반드시 소문자로 구성
 - 단계 3. npx 는 소스를 다운받지 않고 임시저장공간에서 처리하고 삭제
-  : 개인 학습용 프로젝트
+  : 개인 학습용 프로젝트( JS 진행 )
   `npx create-react-app ./`
 
-  : 협업 및 현장 개발 프로젝트 (권장)
+  : 협업 및 현장 개발 프로젝트 (TS 권장)
   `npx create-react-app ./ --template typescript`
 
 ## 2. 기본 작업 순서
@@ -26,9 +26,9 @@
 - JS 주의 사항
   : 일반 js 파일은 소문자.js
   : 리액트(컴포넌트) js 파일은 Pascal형태.js
-  : 간헐적으로 Pascal형태.jsx 로 된 파일도 인정
+  : 간헐적으로 컴포넌트를 Pascal형태.jsx 로 된 파일도 인정
 
-- TS 주의 사항
+- TS 주의 사항(반드시 확장자 구분)
   : 일반 ts 파일은 소문자.ts
   : 리액트(컴포넌트) ts 파일은 Pascal형태.tsx
 
@@ -58,7 +58,9 @@
   : https://realfavicongenerator.net/
 - index.html
   : 최초 웹브라우저 실행 파일
+  : 파일명 수정 금지
 - logo~.png 은 바로가기 및 휴대폰에 바탕화면 저장시 활용
+  : 파일명은 동일하게 유지하는게 편하다.
 - manifest.json 은 모바일 기기에 실행에 대한 정보
   : 아래는 수정을 좀 해요
   ```json
@@ -67,12 +69,13 @@
   ```
 - robots.txt
   : 네이버, 구글 검색엔진에 노출되는 정보 및 범위 기재
+  : 네이버 서치 어드바이저, 구글 검색 등록시 진행
 
 - 없지만 있어야 하는 파일이 sitemap.xml 입니다.
 
 ### 3.3. src 폴더
 
-- webpack 과 babel 에 대상이 됩니다.
+- webpack(번들링 도구) 과 babel(번역도구) 에 대상이 됩니다.
 - App.css
   : App 컴포넌트 css
 - App.test.tsx
@@ -99,30 +102,31 @@
 
 ### 3.4. src 폴더/기타파일
 
-### 3.4.1. `.gitignore`
+#### 3.4.1. `.gitignore`
 
-: 깃허브에 업로드 금지내용 작성
+- 깃허브에 업로드 금지내용 작성
 
-### 3.4.2. package-lock.json
+#### 3.4.2. package-lock.json
 
-: node_modules 내부의 각 파일들이 연결되는 의존성 내용 기재
-: 새로 설치 즉 `npm install` 시 삭제 추천
+- node_modules 내부의 각 파일들이 연결되는 의존성 내용 기재
+- 새로 설치 즉 `npm install` 시 삭제 추천
 
-### 3.4.3. README.md
+#### 3.4.3. README.md
 
-: md 확장자는 markdonw 의 줄임말
-: markdown 문법으로 작성된 문서
-: 설명서/안내서 파일
+- md 확장자는 markdonw 의 줄임말
+- markdown 문법으로 작성된 문서
+- 설명서/안내서 파일
 
-### 3.4.4. package.json
+#### 3.4.4. package.json
 
-: 프로젝트 환경 설정 파일
-: dependencies 항목은 build 시 소스에 포함되는 js
-: scripts 항목은 npm 또는 yarn 실행시 간단한 명령어
+- 프로젝트 환경 설정 파일
+- dependencies 항목은 build 시 소스에 포함되는 js
+- devDependencies 항목은 build 시 소스에 포함안됨
+- scripts 항목은 npm 또는 yarn 실행시 간단한 명령어
 
-### 3.4.5. tsconfig.json
+#### 3.4.5. tsconfig.json
 
-: 타입스크립트의 실행 환경 설정
+- 타입스크립트의 실행 환경 설정
 
 ## 4. 파일 정리 (추천)
 
@@ -190,9 +194,9 @@
 import React from "react";
 import "./App.css";
 
-const App = () => {
-  return <div>App</div>;
-};
+function App() {
+  return <>안녕하세요.</>;
+}
 
 export default App;
 ```
@@ -228,7 +232,63 @@ export default App;
 - App.tsx
   : 확장자를 js 로 수정
 
-### 4.7. test
+### 4.7. package.json 에서 불필요 라이브러리 제거
+
+- dependencies 항목에서 TDD 라이브러 제거
+
+```json
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+```
+
+- package.json 최종 내용
+
+```json
+{
+  "name": "react-lecture",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^16.18.97",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": ["react-app", "react-app/jest"]
+  },
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.2",
+    "prettier": "^3.2.5"
+  }
+}
+```
+
+### 4.8. test
 
 - `npm run start`
 
@@ -381,3 +441,68 @@ export default App;
     },
   };
   ```
+
+## 6. 필수 라이브러리 설치
+
+### 6.1. dependencies 에 설치
+
+- `npm install 라이브러리명`
+- `npm install 라이브러리명@버전`
+
+### 6.2.devDependencies 에 설치
+
+- `npm install 라이브러리명 --save-dev`
+- `npm install 라이브러리명@버전 --save-dev`
+
+### 6.3.라이브러리 설치시 TS 버전을 확인필요
+
+- https://www.npmjs.com/
+- 라이브러리 검색시 TS 아이콘이 있는지 본다.
+  : 만약 TS 아이콘이 없으면 @types/d.ts 파일을 고민해야 한다.
+- 라이브러리 검색 후 Weekly Downloads 숫자를 본다.
+- 예) emotion, axios 등
+
+### 6.4.데이터 연동을 위한 라이브러리 설치
+
+- axios 를 선택
+- https://axios-http.com/kr/docs/api_intro
+- `npm install axios`
+- `npm install @types/axios`
+
+### 6.5.css-in-js 연동을 위한 라이브러리 설치
+
+- styled components
+  : https://styled-components.com/
+
+- emotion
+  : https://emotion.sh/docs/introduction
+  : `npm install @emotion/react @emotion/styled`
+
+### 6.6.Router를 위한 라이브러리 설치
+
+- Router 란 주소 즉, Path 를 말함.
+- https://reactrouter.com/en/main
+- 주의 사항
+  : 리액트 버전에 따라서 다르다.
+  : react-router-dom 버전에 따라서 다르다.
+- `npm install react-router-dom`
+- `npm install @types/react-router-dom`
+
+### 6.7.슬라이드를 위한 라이브러리 설치(선택)
+
+- Swiper
+  : https://swiperjs.com/react
+  : `npm install swiper`
+
+- Slick(별도 TS 지원 필요)
+  : https://kenwheeler.github.io/slick/
+  : `npm install react-slick slick-carousel`
+
+### 6.8.딩벳아이콘을 위한 라이브러리 설치(선택)
+
+- fontawesome
+  : https://fontawesome.com/
+  : `npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core`
+- react-icons
+  : https://react-icons.github.io/react-icons/
+  : `npm install react-icons`
