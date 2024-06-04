@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-
+import "../../css/header.css";
 const Header = ({ children }) => {
   // js 자리
   // 현재 패스와 같은 경우에 보여줄 css Object 생성
@@ -14,9 +14,7 @@ const Header = ({ children }) => {
         <li>
           <NavLink
             to="/"
-            className={({ isActive }) => {
-              return isActive ? "ActiveLink" : "";
-            }}
+            className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             홈
           </NavLink>
@@ -24,9 +22,7 @@ const Header = ({ children }) => {
         <li>
           <NavLink
             to="/company"
-            className={({ isActive }) => {
-              return isActive ? "ActiveLink" : "";
-            }}
+            className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             회사소개
           </NavLink>
@@ -34,9 +30,7 @@ const Header = ({ children }) => {
             <li>
               <NavLink
                 to="/company/ceo?name=홍길동&age=30"
-                className={({ isActive }) => {
-                  return isActive ? "ActiveLink" : "";
-                }}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 대표 소개
               </NavLink>
@@ -44,9 +38,7 @@ const Header = ({ children }) => {
             <li>
               <NavLink
                 to="/company/history"
-                className={({ isActive }) => {
-                  return isActive ? "ActiveLink" : "";
-                }}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 회사 연혁
               </NavLink>
@@ -54,9 +46,7 @@ const Header = ({ children }) => {
             <li>
               <NavLink
                 to="/company/partner"
-                className={({ isActive }) => {
-                  return isActive ? "ActiveLink" : "";
-                }}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 파트너사
               </NavLink>
@@ -64,9 +54,7 @@ const Header = ({ children }) => {
             <li>
               <NavLink
                 to="/company/location"
-                className={({ isActive }) => {
-                  return isActive ? "ActiveLink" : "";
-                }}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 회사위치
               </NavLink>
@@ -76,11 +64,17 @@ const Header = ({ children }) => {
         <li>
           <NavLink
             to="/good"
-            className={({ isActive }) => {
-              return isActive ? "ActiveLink" : "";
-            }}
+            className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             제품소개
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/schedule"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            일정
           </NavLink>
         </li>
       </ul>
