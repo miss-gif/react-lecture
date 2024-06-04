@@ -1,7 +1,7 @@
 import React from "react";
 
-const index = () => {
-  return <div>index</div>;
+const Index = () => {
+  return <h1>홈페이지</h1>;
 };
 
-export default index;
+export default Index;

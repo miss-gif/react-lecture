@@ -702,3 +702,287 @@ export default App;
 
   export default Deatil;
   ```
+
+#### 4.13.4. 페이지 컴포넌트에 쿼리스트링 활용하기
+
+- Query String
+- 예) http://localhost:3000/member?no=1&msg=안녕&id=hong
+  : http://localhost:3000/member (패스)
+  : ? ( search(질의) 라고 합니다. )
+  : no=1 (no의 값은 1이다)
+  : & (구분자)
+  : msg=안녕 (msg의 값은 안녕이다)
+  : & (구분자)
+  : id=hong (id의 값은 hong이다)
+- 쿼리스트링은 ?no=1&msg=안녕&id=hong
+
+- useSearchParams() 활용
+  : use (Hook 이라고 합니다.)
+  : hook 은 컴포넌트 화면이 보인다면 덩달아서 실행되는 것
+  : Search 는 ? 를 말합니다.
+  : Params 는 no=1&msg=안녕&id=hong 말함
+  : () 는 hook 을 실행하라
+  : `import { useSearchParams } from "react-router-dom";`
+  : `const [searchParams, setSearchParams] = useSearchParams();`
+
+  ```js
+  import { useSearchParams } from "react-router-dom";
+
+  const Ceo = () => {
+    // JS 자리
+    const [searchParams, setSearchParams] = useSearchParams();
+    console.log(searchParams);
+    // company/ceo?name=홍길동&age=30
+    const name = searchParams.get("name");
+    const age = searchParams.get("age");
+    console.log(name);
+    console.log(age);
+
+    return (
+      <div>
+        <h1>대표({name}) 소개</h1>
+        <h2>{age}살</h2>
+      </div>
+    );
+  };
+
+  export default Ceo;
+  ```
+
+### 4.14. 컴포넌트 출력의 이해
+
+#### 4.14.1 간단한 props 전달하기
+
+- ```js
+  <Route
+    path="history"
+    element={<History title="좋은회사" year={1990}></History>}
+  ></Route>
+  ```
+- ```js
+  const History = ({ title, year }) => {
+    return (
+      <div>
+        <h1>
+          {title} {year} 연혁
+        </h1>
+      </div>
+    );
+  };
+
+  export default History;
+  ```
+
+#### 4.14.2 복잡한 props 전달하기
+
+```js
+// 복잡한 데이터
+const arr = [
+  { name: "삼성전자", link: "http://" },
+  { name: "LG전자", link: "http://" },
+  { name: "그린컴퓨터", link: "http://" },
+];
+
+<Route path="partner" element={<Partner pc={arr}></Partner>}></Route>;
+```
+
+```js
+const Partner = ({ pc }) => {
+  return (
+    <div>
+      <h1>파트너 소개</h1>
+      <ul>
+        {pc.map((item, index, arr) => (
+          <li key={index}>
+            {item.name} {item.link}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Partner;
+```
+
+#### 4.14.3. outlet 이해하기
+
+- Router 를 이용해서 컴포넌트의 레이아웃을 유지하고
+- Router 의 outlet 장소에 패스에 따라 컴포넌트 출력
+
+```js
+<Route path="/good" element={<Good></Good>}>
+  <Route
+    path=":id"
+    element={<GoodDeatil title={"좋은 회사"}></GoodDeatil>}
+  ></Route>
+  <Route path="delete/:id" element={<h1>제품 삭제</h1>}></Route>
+  <Route path="modify/:id" element={<h1>제품 수정</h1>}></Route>
+</Route>
+```
+
+```js
+import { Link, Outlet } from "react-router-dom";
+
+const Good = () => {
+  return (
+    <div>
+      <h1>제품소개</h1>
+      <ul>
+        <li>
+          <Link to="/good/1">제품 소개</Link>
+        </li>
+        <li>
+          <Link to="/good/delete/1">제품 삭제</Link>
+        </li>
+        <li>
+          <Link to="/good/modify/1">제품 수정</Link>
+        </li>
+      </ul>
+
+      <div style={{ border: "3px solid black" }}>
+        <h2>레이아웃 유지 하고 화면 출력</h2>
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default Good;
+```
+
+#### 4.14.4. children 이해하기
+
+- Router 와 연관성이 없습니다.
+- 컴포넌트 내부에 JSX 전달하기
+
+```jsx
+ const [isLogin, setIsLogin] = useState(true);
+ ...
+ <Header>
+    {isLogin ? (
+      <div>정보수정/로그아웃</div>
+    ) : (
+      <div>회원가입/회원로그인</div>
+    )}
+  </Header>
+```
+
+```jsx
+import { Link } from "react-router-dom";
+
+const Header = ({ children }) => {
+  return (
+    <header className="header">
+      <ul>
+        <li>
+          <Link to="/">홈</Link>
+        </li>
+        <li>
+          <Link to="/company">회사소개</Link>
+          <ul>
+            <li>
+              <Link to="/company/ceo?name=홍길동&age=30">대표 소개</Link>
+            </li>
+            <li>
+              <Link to="/company/history">회사 연혁</Link>
+            </li>
+            <li>
+              <Link to="/company/partner">파트너사</Link>
+            </li>
+            <li>
+              <Link to="/company/location">회사위치</Link>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <Link to="/good">제품소개</Link>
+        </li>
+      </ul>
+
+      {children}
+    </header>
+  );
+};
+
+export default Header;
+```
+
+### 4.15. 라우터의 패스 생성 및 전달하기
+
+### 4.15.1. 문자열 또는 백틱으로 쿼리스트링만들기
+
+`const demo = "/company/ceo?name=성환&age=10";`
+
+### 4.15.2. createSearchParams()로 쿼리스트링만들기
+
+```js
+const queryStr = createSearchParams({
+  name: "길동",
+  age: 100,
+}).toString();
+```
+
+### 4.15.2. useNavigate()로 주소 전달하여 이동하기
+
+```js
+const naviagte = useNavigate();
+```
+
+```js
+const demo = `/company/ceo?name=성환&age=10`;
+// console.log(demo);
+naviagte(demo);
+```
+
+```js
+const queryStr = createSearchParams({
+  name: "길동",
+  age: 100,
+}).toString();
+// console.log(queryStr);
+naviagte({ pathname: "/company/ceo", search: queryStr });
+```
+
+### 4.15.3. useLocation() 으로 주소 경로 정보 분석하기
+
+```js
+// 현재 주소 및 패스 알아내기
+const location = useLocation();
+console.log(location.pathname);
+console.log(location.search);
+console.log(location.state);
+```
+
+- 아래의 내용을 아시면 참 좋겠어요.
+
+```js
+const specialNavi = () => {
+  const queryStr = createSearchParams({
+    name: "길동",
+    age: 100,
+  }).toString();
+  // console.log(queryStr);
+  const fromUrl = {
+    memo: "제품페이지에서 왔어요.",
+    good: "제품 1번을 보고 있었지요.",
+    favorite: "제품 1에 관심이 많네요.",
+  };
+
+  navigate(
+    {
+      pathname: "/company/ceo",
+      search: queryStr,
+    },
+    { state: { fromUrl } },
+  );
+};
+```
+
+```js
+const location = useLocation();
+console.log(location);
+console.log(location.pathname);
+console.log(location.search);
+console.log(location.state?.fromUrl);
+```
