@@ -6,7 +6,7 @@ import Footer from "./components/layout/Footer";
 // Index 라는 이름 충돌로 변경함
 import Home from "./pages/Index";
 import Compony from "./pages/company/Index";
-import GoodDeatil from "./pages/good/Deatil";
+import GoodDeatil from "./pages/good/Detail";
 import Ceo from "./pages/company/Ceo";
 import History from "./pages/company/History";
 import Partner from "./pages/company/Partner";
@@ -22,23 +22,20 @@ function App() {
     { name: "LG전자", link: "http://" },
     { name: "그린컴퓨터", link: "http://" },
   ];
-
   // 로그인 안된 경우
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <BrowserRouter>
       {/* 공통레이아웃 적용 */}
       <div className="wrap">
-        <div className="wrap">
-          <Header>
-            {isLogin ? (
-              <div>회원가입/회원로그인</div>
-            ) : (
-              <div>정보수정/로그아웃</div>
-            )}
-          </Header>
-        </div>
+        <Header>
+          {isLogin ? (
+            <div>정보수정/로그아웃</div>
+          ) : (
+            <div>회원가입/회원로그인</div>
+          )}
+        </Header>
 
         <Routes>
           {/* 루트경로 */}
@@ -51,7 +48,7 @@ function App() {
             <Route path="ceo" element={<Ceo></Ceo>}></Route>
             <Route
               path="history"
-              element={<History title={"좋은회사"} year={1990}></History>}
+              element={<History title="좋은회사" year={1990}></History>}
             ></Route>
             <Route
               path="partner"
@@ -69,11 +66,11 @@ function App() {
             <Route path="modify/:id" element={<h1>제품 수정</h1>}></Route>
           </Route>
 
+          <Route path="/schedule" element={<Schedule />}></Route>
+
           {/* 잘못된 경로 */}
           <Route path="*" element={<NotFound />}></Route>
-          {/* 캘린더 */}
         </Routes>
-        <Schedule />
         <Footer></Footer>
       </div>
     </BrowserRouter>
