@@ -9,7 +9,11 @@
     <h1>입력양식(Form)</h1>
     <h2>회원가입</h2>
     <div class="join-wrap">
-      <form action="/member/join.php" method="get">
+      <form
+        action="/member/join.php"
+        method="get"
+        enctype="multipart/form-data"
+      >
         <div class="form-group">
           <label for="name">이름</label>
           <input type="text" id="name" name="name" class="name" />
@@ -37,6 +41,65 @@
         <div class="form-group">
           <label for="address2">상세주소</label>
           <input type="text" id="address2" name="address2" class="address2" />
+        </div>
+        <div class="form-group">
+          <label for="birthday">생년월일</label>
+          <input type="date" id="birthday" name="birthday" class="birthday" />
+        </div>
+        <div class="form-group">
+          <label for="gender">성별</label>
+          <select id="gender" name="gender" class="gender">
+            <option value="">선택하세요.</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+            <option value="other">기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>취미생활</label>
+          <div class="form-list">
+            <input type="checkbox" id="hobby1" name="hobby" value="reading" />
+            <label for="hobby1">독서</label>
+
+            <input type="checkbox" id="hobby2" name="hobby" value="travling" />
+            <label for="hobby2">여행</label>
+
+            <input type="checkbox" id="hobby3" name="hobby" value="cooking" />
+            <label for="hobby3">요리</label>
+
+            <input type="checkbox" id="hobby4" name="hobby" value="sprots" />
+            <label for="hobby4">운동</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>학생여부</label>
+          <div class="form-list">
+            <input type="radio" id="student-yes" name="student" value="yes" />
+            <label for="student-yes">예</label>
+
+            <input type="radio" id="student-no" name="student" value="no" />
+            <label for="student-no">아니오</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="profile-img">프로필 이미지</label>
+          <input
+            type="file"
+            id="profile-img"
+            name="profile"
+            class="profile-img"
+          />
+        </div>
+        <div class="form-group">
+          <label for="memo">메모</label>
+          <textarea name="memo" id="memo" rows="4" cols="50"></textarea>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="확인" />
+          <button type="submit">submit 확인</button>
+          <button type="button">button type 확인</button>
+          <button>그냥 버튼 확인</button>
         </div>
       </form>
     </div>
