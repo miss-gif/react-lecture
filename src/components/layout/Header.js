@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import "../../css/header.css";
 import { useEffect, useState, useContext } from "react";
 import { userInfoContext } from "../../context/UserInfoProvider";
+import { setCookie } from "../../utils/cookie";
 
 const Header = ({ children }) => {
   const { isUser, setIsUser } = useContext(userInfoContext);
@@ -95,7 +96,9 @@ const Header = ({ children }) => {
                 onClick={() => {
                   // localStorage 아이템 삭제
                   // localStorage.removeItem("userid");
-                  sessionStorage.setItem("userid", "");
+                  // sessionStorage.setItem("userid", "");
+                  setCookie("userid", "", {});
+
                   // useState 업데이트
                   setIsUser("");
                 }}

@@ -801,6 +801,25 @@ const [isUser, setIsUser] = useState("");
 
 ## 8. cookie 에 정보 저장
 
+- https://www.npmjs.com/package/react-cookie
+- `npm i react-cookie`
+- https://velog.io/@defaultkyle/react-cookie
+- /src/utils/cookie.js
+
+```js
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
+
+export const setCookie = (name, value, options) => {
+  return cookies.set(name, value, { ...options });
+};
+
+export const getCookie = name => {
+  return cookies.get(name);
+};
+```
+
 ## 9. Context API 로 각 컴포넌트에서 정보 출력 및 수정
 
 ## 10. 회원정보수정

@@ -4,6 +4,7 @@ import { postSignIn } from "../../apis/user/apiuser";
 import "../../css/member.css";
 import Modal from "../../components/modal/Modal";
 import { userInfoContext } from "../../context/UserInfoProvider";
+import { setCookie } from "../../utils/cookie";
 
 const Login = () => {
   const { setIsUser } = useContext(userInfoContext);
@@ -25,7 +26,9 @@ const Login = () => {
       // console.log(userId);
       // console.log(userPass);
       // localStorage 에 저장하기
-      sessionStorage.setItem("userid", userId);
+      // sessionStorage.setItem("userid", userId);
+      // sessionStorage.setItem("userid", userId);
+      setCookie("userid", userId);
       //setUserId(userId);
       setIsUser(userId);
       navigate("/");
