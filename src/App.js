@@ -28,18 +28,6 @@ function App() {
   // 로그인 안된 경우
   const [isLogin, setIsLogin] = useState(true);
 
-  // 전역 상태 관리 (사용자 아이디를 관리)
-  const [isUser, setIsUser] = useState("");
-  const [language, setLenguage] = useState("ko");
-  const [theme, setTheme] = useState("black");
-
-  useEffect(() => {
-    const tempUser = sessionStorage.getItem("userid");
-    if (tempUser !== "") {
-      setIsUser(tempUser);
-    }
-  }, []);
-
   return (
     <UserInfoProvider>
       <BrowserRouter>

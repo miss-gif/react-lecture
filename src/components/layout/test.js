@@ -22,7 +22,7 @@ const Login = ({ setIsUser }) => {
       // console.log(userId);
       // console.log(userPass);
       // localStorage에 저장하기
-      sessionStorage.setItem("userid", userId);
+      localStorage.setItem("userid", userId);
       setIsUser(userId);
       navigate("/");
     }

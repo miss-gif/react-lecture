@@ -791,6 +791,14 @@ const [isUser, setIsUser] = useState("");
 
 ## 7. sessionStorage 에 정보 저장
 
+- 웹브라우저에 임시 보관됩니다.
+- 누구나 f12 으로 확인가능합니다.
+- 위험한 장소이지만 그래도 휘발성이다
+- `sessionStorage.setItem("키명", 값)`
+- `sessionStorage.getItem("키명")`
+- `sessionStorage.removeItem("키명")`
+- `sessionStorage.clear()`
+
 ## 8. cookie 에 정보 저장
 
 ## 9. Context API 로 각 컴포넌트에서 정보 출력 및 수정

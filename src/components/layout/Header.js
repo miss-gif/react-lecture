@@ -87,7 +87,7 @@ const Header = ({ children }) => {
           </NavLink>
         </li>
 
-        {isUser !== "" ? (
+        {isUser ? (
           <>
             <li>`${isUser} 님이 로그인 하셨어요`</li>
             <li>
