@@ -299,6 +299,7 @@ export default Join;
 : 추가 key 를 작성한다.
 : 추가된 key 에 내용을 넣는다.
 : Content-type 에 내용 작성 ==> application/json (중요)
+
 ```json
 {
   "boardId": 1,
@@ -313,26 +314,485 @@ export default Join;
 - 항목을 선택한다.
 - try 버튼 선택
 - 필수항목 입력
-- Execute 버튼 선택
+- Excuete 버튼 선택
 - response 확인
 
 #### 2.5. Postman 또는 Swagger 쓰는 이유
 
 - react 로 axios 작업 전에 정상적으로 되는지 확인 용도
-- Postman 의 결과는 웹즈라우저에서도 될지는 판단 곤란
+- Postman 의 결과는 웹브라우저에서도 될지는 판단 곤란
 - Swagger 는 웹브라우저이므로 신뢰함.
 
 #### 2.6. axios 적용
+
 - FE 컴퓨터와 BE 컴퓨터가 다르다면 (하드웨어가)
-  : package.json에 proxy 설정해야 합니다.
+  : package.json 에 proxy 설정해야 합니다.
+  : "proxy": "http://192.168.0.148:8080"
+- package.json 수정되면 반드시 리액트 재 start
+
+```js
+// 회원가입시 처리할 함수
+const joinMember = event => {
+  // form 태그에서 submit 을 하면 웹브라우저 갱신
+  // 갱신하면 초기화 되므로 막아줌. (기본기능막기)
+  event.preventDefault();
+
+  // 아래의 데이터를 API 로 보낸다.
+  const requestData = {
+    id: userId,
+    pwd: userPass,
+    name: userName,
+    email: userEmail,
+  };
+  postUser(requestData);
+};
+//  회원가입시 실행할 API 함수
+const postUser = async data => {
+  try {
+    // axios.post("주소", "데이터");
+    const response = await axios.post("/api/user", data);
+    console.log(response.data);
+    // 나머지는 리액트에서 처리
+    if (response.data.statusCode === "2") {
+      alert("회원가입 성공");
+    } else {
+      alert(response.data.resultMsg);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+```
 
 ## 3. axios 기본
 
 ### 3.1. /src/axios 폴더 생성 권장
 
 - /src/axios/user 폴더 생성
-- /src/axios/user/apiuser.js 폴더 생성
+- /src/axios/user/apiuser.js 파일 생성
+
+```js
+import axios from "axios";
+
+//  회원가입시 실행할 API 함수
+export const postUser = async data => {
+  try {
+    // axios.post("주소", "데이터");
+    const response = await axios.post("/api/user", data);
+    console.log(response.data);
+    // 나머지는 리액트에서 처리
+    if (response.data.statusCode === "2") {
+      return "회원가입 성공";
+    } else {
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getResetPwd = async ({ userEmail, userId }) => {
+  try {
+    const rqData = `/api/user/resetpwd?email=${userEmail}&id=${userId}`;
+    const response = await axios.get(rqData);
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUser = async ({ userName, userEmail }) => {
+  try {
+    const reqData = `/api/user?name=${userName}&email=${userEmail}`;
+    const response = await axios.get(reqData);
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 로그인 API
+export const postSignIn = async ({ userId, userPass }) => {
+  try {
+    const response = await axios.post("/api/user/sign-in", {
+      id: userId,
+      pwd: userPass,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+```
 
 ## 4. 회원로그인
 
-## 5. 회원정보수정
+```js
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postSignIn } from "../../apis/user/apiuser";
+import "../../css/member.css";
+const Login = () => {
+  // 라우터
+  const navigate = useNavigate();
+
+  const [userId, setUserId] = useState("hong14Guild");
+  const [userPass, setUserPass] = useState("Abc@1234");
+
+  const handleSubmit = async e => {
+    // 새로 고침 막기
+    e.preventDefault();
+
+    if (userId === "") {
+      alert("아이디를 입력하세요");
+      return;
+    }
+    if (userPass === "") {
+      alert("패스워드를 입력하세요");
+      return;
+    }
+
+    const result = await postSignIn({ userId, userPass });
+    if (result.statusCode !== 2) {
+      alert(result.resultMsg);
+      return;
+    }
+
+    navigate("/");
+  };
+
+  return (
+    <div className="join-wrap">
+      <form className="join-form">
+        {/* 사용자 아이디 */}
+        <div className="form-group">
+          <label htmlFor="userid">아이디</label>
+          <input
+            type="text"
+            value={userId}
+            id="userid"
+            className="join-email"
+            onChange={e => {
+              setUserId(e.target.value);
+            }}
+          />
+        </div>
+
+        {/* 사용자 패스워드 */}
+        <div className="form-group">
+          <label htmlFor="pass">패스워드</label>
+          <input
+            type="password"
+            value={userPass}
+            id="pass"
+            className="join-email"
+            onChange={e => {
+              setUserPass(e.target.value);
+            }}
+          />
+        </div>
+
+        <div className="form-group">
+          <button
+            type="submit"
+            className="bt-submit"
+            onClick={e => {
+              handleSubmit(e);
+            }}
+          >
+            로그인
+          </button>
+          <button type="reset" className="bt-cancel">
+            취소
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default Login;
+```
+
+## 5. 모달창 적용해 보기
+
+- /src/components/modal/Modal.js
+
+```js
+import "./modal.css";
+const Modal = ({
+  title,
+  text,
+  modalOk,
+  modalCancel,
+  modalBtOk,
+  modalBtCancel,
+}) => {
+  return (
+    <div className="modal-wrap">
+      <div className="modal-content">
+        <header>
+          <h1>{title}</h1>
+        </header>
+        <main>
+          <p>{text}</p>
+        </main>
+        <footer>
+          {modalBtOk ? (
+            <button
+              onClick={() => {
+                modalOk();
+              }}
+            >
+              확인
+            </button>
+          ) : null}
+
+          {modalBtCancel ? (
+            <button
+              onClick={() => {
+                modalCancel();
+              }}
+            >
+              취소
+            </button>
+          ) : null}
+        </footer>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
+```
+
+- /src/components/modal/modal.css
+
+```css
+.modal-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  min-height: 400px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.modal-content header {
+  text-align: center;
+}
+.modal-content main {
+  text-align: center;
+}
+.modal-content footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+}
+```
+
+- /src/pages/member/Login.js
+
+```js
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postSignIn } from "../../apis/user/apiuser";
+import "../../css/member.css";
+import Modal from "../../components/modal/Modal";
+const Login = () => {
+  // 라우터
+  const navigate = useNavigate();
+  // 모달창 전달 변수
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalText, setModalText] = useState("");
+  // 컴포넌트 버튼 보이고, 숨기기 ( children, 새로 컴포넌트도 고민)
+  const [modalBtOk, setModalBtOk] = useState(true);
+  const [modalBtCancel, setModalBtCancel] = useState(true);
+  // 모달 보이는 상태값
+  const [isModal, setIsModal] = useState(false);
+  // 모달 실행 함수
+  const modalOk = () => {
+    setIsModal(false);
+
+    if (isSuccess) {
+      navigate("/");
+    }
+  };
+  const modalCancel = () => {
+    setIsModal(false);
+  };
+
+  const [userId, setUserId] = useState("hong14Guild");
+  const [userPass, setUserPass] = useState("Abc@1234");
+  // 로그인 성공 여부
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async e => {
+    // 새로 고침 막기
+    e.preventDefault();
+    // 아이디가 입력이 되었는지 확인
+    if (!userId) {
+      setIsModal(true);
+      setModalTitle("로그인 안내");
+      setModalText("아이디를 반드시 입력해주세요.");
+      setModalBtOk(true);
+      setModalBtCancel(true);
+      return;
+    }
+    if (!userPass) {
+      setIsModal(true);
+      setModalTitle("로그인 안내");
+      setModalText("비밀번호를 반드시 입력해주세요.");
+      setModalBtOk(true);
+      setModalBtCancel(true);
+      return;
+    }
+
+    const result = await postSignIn({ userId, userPass });
+    if (result.statusCode !== 2) {
+      setIsModal(true);
+      setModalTitle("로그인 안내");
+      setModalText(result.resultMsg);
+      setModalBtOk(true);
+      setModalBtCancel(false);
+      return;
+    }
+    // 성공함
+    setIsModal(true);
+    setModalTitle("로그인 안내");
+    setModalText("로그인에 성공하였습니다.");
+    setModalBtOk(true);
+    setModalBtCancel(false);
+
+    // 로그인 성공
+    setIsSuccess(true);
+    // navigate("/");
+  };
+
+  return (
+    <>
+      {isModal ? (
+        <Modal
+          title={modalTitle}
+          text={modalText}
+          modalOk={modalOk}
+          modalCancel={modalCancel}
+          modalBtOk={modalBtOk}
+          modalBtCancel={modalBtCancel}
+        />
+      ) : null}
+
+      <div className="join-wrap">
+        <form className="join-form">
+          {/* 사용자 아이디 */}
+          <div className="form-group">
+            <label htmlFor="userid">아이디</label>
+            <input
+              type="text"
+              value={userId}
+              id="userid"
+              className="join-email"
+              onChange={e => {
+                setUserId(e.target.value);
+              }}
+            />
+          </div>
+
+          {/* 사용자 패스워드 */}
+          <div className="form-group">
+            <label htmlFor="pass">패스워드</label>
+            <input
+              type="password"
+              value={userPass}
+              id="pass"
+              className="join-email"
+              onChange={e => {
+                setUserPass(e.target.value);
+              }}
+            />
+          </div>
+
+          <div className="form-group">
+            <button
+              type="submit"
+              className="bt-submit"
+              onClick={e => {
+                handleSubmit(e);
+              }}
+            >
+              로그인
+            </button>
+            <button type="reset" className="bt-cancel">
+              취소
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+};
+
+export default Login;
+```
+
+## 6. localStorage 에 정보 저장
+
+- 웹브라우저에 영원히 보관됩니다.
+- 누구나 f12 으로 확인가능합니다.
+- 위험한 장소
+- `localStorage.setItem("키명", 값)`
+- `localStorage.getItem("키명")`
+- `localStorage.removeItem("키명")`
+- `localStorage.clear()`
+- 새로고침한 경우에 정보를 useState 에 담는다.
+- 각 컴포넌트에 props 를 통해 정보를 전달한다.
+- 이러한 props 가 전달되는 과정을 Drilling 이라고합니다.
+- 컴포넌트 드릴링은 많은 부작용이 있다.
+- props 는 3단계 이상 연속으로 전달하지 않도록 노력하자.
+- 3단계 이상 넘어간다면 전역상태관리를 권장한다.
+
+### 6.1. Context API 와 localStorage 활용
+
+- 어느 컴포넌트에서 전역관리 코드를 해줄까?
+  : App.js 를 추천함.
+- react 라이브러리에 내장되어 있다.
+- step 1.
+  : Context 를 생성한다. createContext()
+  : `export const userInfoContext = createContext();`
+- step 2. Provider 생성 및 value 지정
+
+```js
+const [isUser, setIsUser] = useState("");
+....
+<userInfoContext.Provider
+  value={{ isUser, setIsUser }}
+>
+  컴포넌트 배치
+</userInfoContext.Provider>;
+```
+
+- step 3. Context 를 사용. useContext()
+  : `const { isUser, setIsUser } = useContext(userInfoContext);`
+
+## 7. sessionStorage 에 정보 저장
+
+## 8. cookie 에 정보 저장
+
+## 9. Context API 로 각 컴포넌트에서 정보 출력 및 수정
+
+## 10. 회원정보수정

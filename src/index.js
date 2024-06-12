@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -10,8 +10,10 @@ import App from "./App";
 // js 버전
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+// 전역 상태 관리 (사용자 아이디를 관리)
+const userInfoContext = createContext();
 root.render(
   <>
     <App />
-  </>
+  </>,
 );

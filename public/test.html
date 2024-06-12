@@ -5,63 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      /* .dim 클래스 초기 스타일 설정 */
-      .dim {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0);
-        visibility: hidden;
-        opacity: 0;
-        transition:
-          background-color 1s,
-          opacity 1s; /* 트랜지션 설정 */
-      }
-
-      /* .active 클래스가 추가되었을 때의 스타일 */
-      .dim.active {
-        visibility: visible;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 1;
+      .active {
+        background-color: red;
       }
     </style>
+    <script>
+    window.addEventListener("load", function () {
+      const infoForm = document.querySelector(".info-form");
+      const inputList = document.querySelector(".main-top-info");
+      console.log(inputList);
+      // infoForm.addEventListener("submit", function (e) {    
+      //   // e.preventDefault();
+      //   // const list = inputList.value;
+      //   // console.log(list);
+      // });
+    });
+    </script>
   </head>
   <body>
-    <div class="dim"></div>
-    <button class="bt">클릭이에요</button>
-    <button class="btdim">메뉴보기</button>
-
-    <script>
-      // "클릭이에요" 버튼 클릭 시 alert 메시지 표시
-      const bt = document.querySelector(".bt");
-      bt.addEventListener("click", function () {
-        alert("안녕");
-      });
-
-      const btdim = document.querySelector(".btdim");
-      const dimDiv = document.querySelector(".dim");
-
-      // "메뉴보기" 버튼 클릭 시 .dim 요소에 .active 클래스 추가
-      btdim.addEventListener("click", function () {
-        dimDiv.style.visibility = "visible"; // visibility를 먼저 visible로 설정
-        setTimeout(() => {
-          dimDiv.classList.add("active"); // 짧은 지연 후 .active 클래스 추가
-        }, 0);
-      });
-
-      // .dim 요소 클릭 시 .active 클래스 제거
-      dimDiv.addEventListener("click", function () {
-        dimDiv.classList.remove("active");
-      });
-
-      // transitionend 이벤트를 이용하여 opacity 트랜지션 후 visibility를 hidden으로 설정
-      dimDiv.addEventListener("transitionend", function () {
-        if (!dimDiv.classList.contains("active")) {
-          dimDiv.style.visibility = "hidden";
-        }
-      });
-    </script>
+    <form name="info-form" class="info-form" action="a.jsp" method="get">
+      <input class="main-top-info" name="gogo"></input>
+      <input class="main-top-info2" name="age"></input>
+      <button type="button">전송</button>
+    </form>
   </body>
 </html>

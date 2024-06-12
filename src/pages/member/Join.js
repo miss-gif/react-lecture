@@ -3,9 +3,11 @@ import { getResetPwd, getUser, postUser } from "../../apis/user/apiuser";
 import "../../css/member.css";
 import { useNavigate } from "react-router-dom";
 const Join = () => {
+  // 라우터
   const navigate = useNavigate();
+
   // 입력할 항목 변수
-  const [userId, setUserId] = useState("akari2");
+  const [userId, setUserId] = useState("akaring1");
   const [userEmail, setUserEmail] = useState("");
   const [userPass, setUserPass] = useState("Abc@1234");
   const [userPass2, setUserPass2] = useState("");
@@ -30,7 +32,8 @@ const Join = () => {
       alert(result.resultMsg);
       return;
     }
-    // path로 강제 이동시키기
+    // 회원가입이 성공했으므로 /login 으로 이동한다.
+    // path 로 강제 이동시키기
     navigate("/login");
   };
 
