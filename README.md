@@ -820,6 +820,17 @@ export const getCookie = name => {
 };
 ```
 
+### 8.1. 쿠키 설정 옵션
+
+- setCookie 메서드에 전달할 수 있는 주요 옵션들은 다음과 같습니다:
+- path: 쿠키의 경로를 설정합니다. 기본값은 '/'입니다.
+- expires: 쿠키의 만료 날짜를 설정합니다. Date 객체를 사용합니다.
+- maxAge: 쿠키의 수명을 초 단위로 설정합니다.
+- domain: 쿠키가 유효한 도메인을 설정합니다.
+- secure: true로 설정하면 HTTPS에서만 쿠키가 전송됩니다.
+- httpOnly: true로 설정하면 클라이언트에서 쿠키를 사용할 수 없습니다 (서버 측에서만 접근 가능).
+- sameSite: 쿠키의 SameSite 속성을 설정합니다. 'strict', 'lax', 'none' 중 하나를 사용합니다.
+
 ## 9. Context API 로 각 컴포넌트에서 정보 출력 및 수정
 
 ## 10. 회원정보수정

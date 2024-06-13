@@ -94,11 +94,10 @@ const Header = ({ children }) => {
             <li>
               <button
                 onClick={() => {
-                  // localStorage 아이템 삭제
-                  // localStorage.removeItem("userid");
+                  // sessionStorage 아이템 삭제
+                  // sessionStorage.removeItem("userid");
                   // sessionStorage.setItem("userid", "");
                   setCookie("userid", "", {});
-
                   // useState 업데이트
                   setIsUser("");
                 }}

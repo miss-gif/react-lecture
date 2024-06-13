@@ -7,7 +7,7 @@ const Join = () => {
   const navigate = useNavigate();
 
   // 입력할 항목 변수
-  const [userId, setUserId] = useState("akaring1");
+  const [userId, setUserId] = useState("hong14Guild");
   const [userEmail, setUserEmail] = useState("");
   const [userPass, setUserPass] = useState("Abc@1234");
   const [userPass2, setUserPass2] = useState("");
