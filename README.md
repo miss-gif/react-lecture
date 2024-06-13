@@ -820,6 +820,7 @@ export const getCookie = name => {
 };
 ```
 
+
 ### 8.1. 쿠키 설정 옵션
 
 - setCookie 메서드에 전달할 수 있는 주요 옵션들은 다음과 같습니다:
@@ -830,6 +831,71 @@ export const getCookie = name => {
 - secure: true로 설정하면 HTTPS에서만 쿠키가 전송됩니다.
 - httpOnly: true로 설정하면 클라이언트에서 쿠키를 사용할 수 없습니다 (서버 측에서만 접근 가능).
 - sameSite: 쿠키의 SameSite 속성을 설정합니다. 'strict', 'lax', 'none' 중 하나를 사용합니다.
+
+```js
+setCookie("userid", userId, {
+  path: "/",
+  expire: new Date(Date.now() + 86400e3), // 1일 후 만료시간 설정
+  maxAge: 86400, // 1일 동안 유효
+});
+```
+
+### 8.2. 쿠키 설정 및 axios, JTW 연동
+
+```js
+import axios from "axios";
+// 쿠키관련
+import { Cookies } from "react-cookie";
+const cookies = new Cookies();
+
+export const client = axios.create({
+  baseURL: "API 주소", // 선택사항 1. 기본 URL 설정
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Request 처리
+client.interceptors.request.use(
+  config => {
+    // 로컬스토리지를 활용한 경우
+    // const user = JSON.parse(localStorage.getItem("user") || "");
+    // if (user?.token) {
+    //     config.headers.Authorization = `Bearer ${user.token}`;
+    //   }
+
+    // 쿠키를 활용하는 경우
+    const token = cookies.get("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => console.log(error),
+);
+
+// 쿠키 set 하기
+export const fetchLogin = async (id, pass) => {
+  try {
+    const res = await client.post("/login", { id, pass });
+    // res.data ======== >>>>> {token:"토큰문자열", .....}
+    const result = await res.data;
+    cookies.set("token", result.token, {
+      path: "/",
+      secure: true,
+      sameSite: "none",
+      httpOnly: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+// logout 시 쿠키 지우기
+export const fetchLogout = () => {
+  cookies.remove("token");
+};
+```
+
 
 ## 9. Context API 로 각 컴포넌트에서 정보 출력 및 수정
 

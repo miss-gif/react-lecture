@@ -27,7 +27,11 @@ const Login = () => {
       // console.log(userPass);
       // localStorage.setItem("userid", userId);
       // sessionStorage.setItem("userid", userId);
-      setCookie("userid", userId, {});
+      setCookie("userid", userId, {
+        path: "/",
+        expire: new Date(Date.now() + 86400e3), // 1일 후 만료시간 설정
+        maxAge: 86400, // 1일 동안 유효
+      });
       //setUserId(userId);
       setIsUser(userId);
       navigate("/");
@@ -37,7 +41,7 @@ const Login = () => {
     setIsModal(false);
   };
 
-  const [userId, setUserId] = useState("hong14Guild");
+  const [userId, setUserId] = useState("akaring1");
   const [userPass, setUserPass] = useState("Abc@1234");
   // 로그인 성공 여부
   const [isSuccess, setIsSuccess] = useState(false);
