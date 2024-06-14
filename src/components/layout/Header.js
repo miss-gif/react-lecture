@@ -3,7 +3,6 @@ import "../../css/header.css";
 import { useEffect, useState, useContext } from "react";
 import { userInfoContext } from "../../context/UserInfoProvider";
 import { setCookie } from "../../utils/cookie";
-import styled from "@emotion/styled";
 
 const Header = ({ children }) => {
   const { isUser, setIsUser } = useContext(userInfoContext);
@@ -20,7 +19,7 @@ const Header = ({ children }) => {
   useEffect(() => {}, []);
 
   return (
-    <StyleHeader className="header">
+    <header className="header">
       <ul>
         <li>
           <NavLink
@@ -93,7 +92,7 @@ const Header = ({ children }) => {
             to="/file"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            파일
+            파일업로드
           </NavLink>
         </li>
         <li>
@@ -102,6 +101,14 @@ const Header = ({ children }) => {
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             애완동물 등록하기
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/mulitifile"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            멀티파일 등록하기
           </NavLink>
         </li>
 
@@ -146,24 +153,8 @@ const Header = ({ children }) => {
       </ul>
 
       {children}
-    </StyleHeader>
+    </header>
   );
 };
 
 export default Header;
-
-const StyleHeader = styled.header`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ul {
-    list-style: none;
-    display: flex;
-    /* flex-direction: column; */
-    gap: 20px;
-  }
-  ul > li > ul {
-    border-color: orange;
-    flex-direction: column;
-  }
-`;
