@@ -3,6 +3,7 @@ import "../../css/header.css";
 import { useEffect, useState, useContext } from "react";
 import { userInfoContext } from "../../context/UserInfoProvider";
 import { setCookie } from "../../utils/cookie";
+import styled from "@emotion/styled";
 
 const Header = ({ children }) => {
   const { isUser, setIsUser } = useContext(userInfoContext);
@@ -19,7 +20,7 @@ const Header = ({ children }) => {
   useEffect(() => {}, []);
 
   return (
-    <header className="header">
+    <StyleHeader className="header">
       <ul>
         <li>
           <NavLink
@@ -95,6 +96,14 @@ const Header = ({ children }) => {
             파일
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/animaladd"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            애완동물 등록하기
+          </NavLink>
+        </li>
 
         {isUser ? (
           <>
@@ -137,8 +146,24 @@ const Header = ({ children }) => {
       </ul>
 
       {children}
-    </header>
+    </StyleHeader>
   );
 };
 
 export default Header;
+
+const StyleHeader = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ul {
+    list-style: none;
+    display: flex;
+    /* flex-direction: column; */
+    gap: 20px;
+  }
+  ul > li > ul {
+    border-color: orange;
+    flex-direction: column;
+  }
+`;
