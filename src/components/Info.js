@@ -1,7 +1,5 @@
 import React from "react";
 
-const Info = () => {
+export const Info = () => {
   return <div>Info</div>;
 };
-
-export default Info;

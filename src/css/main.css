@@ -1,0 +1,10 @@
+.wrap {
+  position: relative;
+  background: green;
+}
+
+@media screen and (max-width: 1920px) {
+  .wrap {
+    background: orange;
+  }
+}
