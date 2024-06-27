@@ -1,59 +1,145 @@
-import { useEffect, useState } from "react";
-import { Gallery } from "./components/Gallery";
-import { Info } from "./components/Info";
-import { Notice } from "./components/Notice";
-import { QuickLink } from "./components/QuickLink";
-import { Slide } from "./components/Slide";
-import { Footer } from "./components/layout/Footer";
-import { Header } from "./components/layout/Header";
-import { Main } from "./components/layout/Main";
-
 const App = () => {
-  let [login, setLogin] = useState(false);
-  console.log("Home 이 새로고침 되니? login : ", login);
-
-  let [count, setCount] = useState(0);
-
-  const changeLogin = () => {
-    setLogin(!login);
-    // useState는 비동기 방식으로 처리된다.
-    // 업데이트 함수 활용
-    setCount(prev => prev + 1);
-    setCount(prev => prev + 1);
-    setCount(prev => prev + 1);
-    setCount(prev => prev + 1);
-
-    console.log("현재 count : ", count);
+  const handleChangeForm = e => {
+    console.log(e.type);
+    console.log(e.target);
+    console.log(e.target.name);
+    console.log(e.target.value);
   };
-
-  useEffect(() => {
-    console.log("Home 이 새로고침 되니? USE-EFFECT ", count);
-  }, [count]);
-
-  useEffect(() => {
-    // console.log("Home 이 새로고침 되니? USE-EFFECT", login);
-  }, [login]);
-
   return (
-    <>
-      <button
-        onClick={() => {
-          changeLogin();
-        }}
-      >
-        로그인버튼
-      </button>
-      <Header login={login} />
-      <Main>
-        <Slide />
-        <Info>
-          <Notice />
-          <Gallery />
-          <QuickLink />
-        </Info>
-      </Main>
-      <Footer />
-    </>
+    <div>
+      <form>
+        <fieldset>
+          <legend>회원가입</legend>
+          <label htmlFor="user">아이디</label>
+          <input
+            type="text"
+            name="user"
+            id="user"
+            placeholder="아이디 입력해주세요."
+            onChange={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <input type="button" name="idcheck" value="중복확인" />
+          <br />
+          <label htmlFor="pw">비밀번호</label>
+          <input
+            type="password"
+            name="pw"
+            id="pw"
+            onChange={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <br />
+        </fieldset>
+
+        <fieldset>
+          <legend>정보입력</legend>
+          <label htmlFor="age">나이</label>
+          <input
+            type="number"
+            name="age"
+            id="age"
+            onChange={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <br />
+          <label htmlFor="gm">남성</label>
+          <input
+            type="radio"
+            name="gender"
+            value="m"
+            id="gm"
+            checked={true}
+            onClick={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <label htmlFor="gf">여성</label>
+          <input
+            type="radio"
+            name="gender"
+            value="f"
+            id="gf"
+            onClick={e => {
+              handleChangeForm(e);
+            }}
+          />
+
+          <br />
+          <label htmlFor="js">JS</label>
+          <input
+            type="checkbox"
+            name="js"
+            id="js"
+            onClick={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <label htmlFor="css">CSS</label>
+          <input
+            type="checkbox"
+            name="css"
+            id="css"
+            onClick={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <label htmlFor="html">HTML</label>
+          <input
+            type="checkbox"
+            name="html"
+            id="html"
+            onClick={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <br />
+          <label htmlFor="level">성적등급</label>
+          <select
+            name="level"
+            id="level"
+            onChange={e => {
+              handleChangeForm(e);
+            }}
+          >
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+          <br />
+          <label htmlFor="file">파일첨부</label>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            onChange={e => {
+              handleChangeForm(e);
+            }}
+          />
+          <br />
+          <label htmlFor="etc">기타사항</label>
+          <textarea
+            name="etc"
+            id="etc"
+            onChange={e => {
+              handleChangeForm(e);
+            }}
+          ></textarea>
+        </fieldset>
+
+        <fieldset>
+          <legend>버튼들</legend>
+          <input type="reset" value="다시작성" />
+          <input type="submit" value="작성완료" />
+          <button type="button">버튼 작성 완료</button>
+          <input type="image" src="images/a.jpg" />
+        </fieldset>
+      </form>
+    </div>
   );
 };
 
