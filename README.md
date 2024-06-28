@@ -1,12 +1,109 @@
-# state
+# Component state
 
-- 일반적으로 state 라는 단어는 앱의 현재 상태 즉, 화면의 상태를 말함.
-- 하지만, 우리는 state 를 앱이 보관하고 있고, 보여주고 있는 변수를 말한다고 봄.
-- state 의 종류는 2가지라고 보면 좋겠다.
-  : 각 컴포넌트가 가지고 있는 state는 useState 를 활용
-  : 전체(글로벌)에 반영되는 state는 Context API, Redux tool-kit, Recoil ...
+- 기본형
 
-## 1. 컴포넌트 state 관리 및 표현
+```js
+const AppRoot: React.FC<AppRootProps> = ({ children }) => {
+  const [count, setCount] = useState(0);
+  return <div>{count}</div>;
+};
+```
+
+## 1. state 에 데이터 종류명시하기 (TS)
+
+- 마우스 커서를 state 변수에 올려본다.
+  : 타입 추론을 보고 결정한다.
+  : `const count: number`
+  : `useState<>(0)`
+  : ` const [count, setCount] = useState<number>(0);`
+- 활용예
+
+```ts
+const [count, setCount] = useState<number>(0);
+const [name, setName] = useState<string>("");
+const [login, setLogin] = useState<boolean>(false);
+const [todos, setTodos] = useState<[]>([]);
+const [info, setInfo] = useState<null>(null);
+```
+
+## 2. state 에 객체 데이터 명시하기
+
+- `const [user, setUser] = useState(member);`
+
+```ts
+const member = {
+  pk: 1,
+  id: "hong",
+  level: 10,
+};
+const [user, setUser] = useState<{
+  pk: number;
+  id: string;
+  level: number;
+}>(member);
+```
+
+- interfac 로 업데이트 하기
+
+```ts
+// 사용자 데이터 정의
+interface IUser {
+  pk: number;
+  id: string;
+  level: number;
+  login?: boolean;
+}
+// 객체 데이터 정의하기
+const member = {
+  pk: 1,
+  id: "hong",
+  level: 10,
+};
+const [user, setUser] = useState<IUser>(member);
+```
+
+## 3. state 에 여러 종류 데이터 명시하기
+
+```ts
+// 여러가지 종류의 데이터를 기본 값으로 설정
+const [userValue, setUserValue] = useState<number | string>(0);
+setUserValue("A");
+const [userPoint, setUserPoint] = useState<boolean | null | undefined | string>(
+  false,
+);
+setUserPoint(null);
+setUserPoint(undefined);
+setUserPoint(true);
+setUserPoint(0);
+setUserPoint("1200");
+```
+
+## 4. state 에 배열에 데이터 명시하기
+
+```ts
+// 학생정보 데이터모양
+interface IStudent {
+  pk: number;
+  name: string;
+  hobby: string;
+}
+
+// 배열에 데이터 명시하기
+const [tourList, setTourList] = useState<string[]>(["대구", "광주", "경주"]);
+const [priceList, setPriceList] = useState<number[]>([1000, 2000, 3000]);
+const [good, setGoood] = useState<(string | number | boolean)[]>([
+  "수박",
+  5000,
+  0.5,
+  true,
+]);
+const students = [
+  { pk: 1, name: "홍길동", hobby: "축구" },
+  { pk: 2, name: "고길동", hobby: "등산" },
+  { pk: 3, name: "박길동", hobby: "산책" },
+];
+const [studentList, setStudentList] = useState<IStudent[]>(students);
+```
 
 ### 1.1. 일반 변수일 경우
 
