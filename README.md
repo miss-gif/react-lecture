@@ -279,17 +279,39 @@ const Child: React.FC<ChildProps> = ({ children }: ChildProps): JSX.Element => {
 
 ```
 
-## 6. 컴포넌트에 useState 변수값 전달하기
+## 11. useState 에 TS 적용하기
 
-```js
-const [level, setLevel] = useState(0);
-const [gogo, setGogo] = useState(() => {});
-...
- <Header
-        gogo={gogo}
-        level={level}
-  />
+```tsx
+/* eslint-disable prefer-const */
+import React, { useState } from "react";
+
+interface ChildProps {
+  children?: React.ReactNode;
+}
+
+const Child: React.FC<ChildProps> = ({ children }) => {
+  const [level, setLevel] = useState<number>(0);
+  const [userId, setUserId] = useState<string>("");
+  const initData = [
+    { pk: 1, title: "할일 1", complted: true },
+    { pk: 1, title: "할일 1", complted: true },
+    { pk: 1, title: "할일 1", complted: true },
+    { pk: 1, title: "할일 1", complted: true },
+    { pk: 1, title: "할일 1", complted: true },
+  ];
+  const [todoList, setTodoList] = useState<[]>([]);
+
+  return (
+    <div
+      onClick={() => {
+        setLevel("hello");
+      }}
+    >
+      Child 입니다.
+      <div>{children}</div>
+    </div>
+  );
+};
+
+export default Child;
 ```
-
-- useState 변수는 화면이 갱신 될때도 유지되는 변수.
-- 일반 변수는 화면이 갱신 즉, js 가 다시 실행되므로 늘 초기화된다.
