@@ -1,8 +1,3 @@
-# File ts 적용하기
-
-- `npm install @types/axios`
-
-```tsx
 import axios from "axios";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 export interface FileTSProps {
@@ -157,6 +152,3 @@ const FileTs: React.FC<FileTSProps> = () => {
 };
 
 export default FileTs;
-```
-
-## 2. file 여러개 선택 및 미리보기
